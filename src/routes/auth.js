@@ -14,9 +14,9 @@ userRouter.post("/signup", async (req, res) => {
       password: hashedPassword,
     });
     await user.save();
-    res.json({message:"User Added successfully!"});
+    res.json({ message: "User Added successfully!" });
   } catch (err) {
-    res.status(400).json({message:"Error saving the user:" + err.message});
+    res.status(400).json({ message: "Error saving the user:" + err.message });
   }
 });
 
@@ -36,16 +36,19 @@ userRouter.post('/login', async (req, res) => {
     const token = await user.getJWT();
 
     res.cookie("token", token, {
-      expires: new Date(Date.now() + 8 * 3600000)
-    }).json({user});
+      expires: new Date(Date.now() + 8 * 3600000),
+      httpOnly: true,
+      secure: true,
+      sameSite: "None"
+    }).json({ user });
   }
   catch (err) {
-    res.status(400).json({message:"ERROR : " + err.message});
+    res.status(400).json({ message: "ERROR : " + err.message });
   }
 });
 
 userRouter.post('/logout', async (req, res) => {
-  res.clearCookie("token").json({message:"Logged out Successfully..!!!"});
+  res.clearCookie("token").json({ message: "Logged out Successfully..!!!" });
 });
 
 module.exports = userRouter;
