@@ -12,21 +12,7 @@ const sessionRouter = require('./routes/sessionRoutes');
 const geminiRouter = require('./routes/geminiRoutes');
 
 app.use(cors({
-  origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl requests)
-    if (!origin) return callback(null, true);
-    
-    // Allow localhost for development
-    if (origin.startsWith('http://localhost')) return callback(null, true);
-    
-    // Allow render.com domains for production
-    if (origin.includes('render.com')) return callback(null, true);
-    
-    // Allow specific client URL if set
-    if (process.env.CLIENT_URL && origin === process.env.CLIENT_URL) return callback(null, true);
-    
-    return callback(new Error('Not allowed by CORS'));
-  },
+  origin: true,
   credentials: true,
   methods: ['GET', 'POST', 'PATCH', 'DELETE', 'PUT', 'OPTIONS']
 }));
